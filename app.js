@@ -5,6 +5,7 @@ const path = require('path')
 const cors = require('cors')
 const asyncHandler = require('express-async-handler')
 const Users = require('./users')
+const Exercises = require('./exercises')
 
 app.use(cors())
 
@@ -15,6 +16,13 @@ app.use(express.static('public'))
 
 app.get('/', asyncHandler(async (req, res, next) => {
   res.sendFile(path.join(__dirname, '/views/index.html'))
+}))
+
+app.post('/api/exercise/add', asyncHandler(async (req, res, next) => {
+  // console.log(req.body)
+  const user = await Exercises.create(req.body)
+  // console.log(user)
+  res.json(user)
 }))
 
 app.post('/api/exercise/new-user', asyncHandler(async (req, res, next) => {

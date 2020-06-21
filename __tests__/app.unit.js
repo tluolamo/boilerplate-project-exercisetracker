@@ -20,7 +20,7 @@ beforeAll(async () => {
   })
 
   const mongoUri = await mongoServer.getUri()
-  await mongoose.connect(mongoUri, {}, (err) => {
+  await mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
     if (err) console.error(err)
   })
 })
@@ -58,6 +58,43 @@ describe('Test user list API', () => {
     expect(response.statusCode).toBe(200)
     expect(firstRec.username).toBe(primaryUser)
     expect(typeof firstRec._id).toBe('string')
+    done()
+  })
+})
+
+// /api/exercise/add
+describe('Test exercise add API', () => {
+  test('Should be able to post exercise data from a form', async done => {
+    const description = 'Weightlifting'
+    const duration = 60
+    const userId = (await request(app)
+      .post('/api/exercise/new-user').type('form').send({ username: primaryUser })).body._id
+    const response = await request(app)
+      .post('/api/exercise/add').type('form').send({ userId, description, duration })
+    const rec = response.body
+
+    expect(response.statusCode).toBe(200)
+    expect(typeof rec._id).toBe('string')
+    expect(rec.userId).toBe(userId)
+    expect(rec.description).toBe(description)
+    expect(rec.duration).toBe(duration)
+    done()
+  })
+
+  test('SHould be able to post with a defined date too', async done => {
+    const description = 'Weightlifting'
+    const duration = 60
+    const userId = (await request(app)
+      .post('/api/exercise/new-user').type('form').send({ username: primaryUser })).body._id
+    const response = await request(app)
+      .post('/api/exercise/add').type('form').send({ userId, description, duration })
+    const rec = response.body
+
+    expect(response.statusCode).toBe(200)
+    expect(typeof rec._id).toBe('string')
+    expect(rec.userId).toBe(userId)
+    expect(rec.description).toBe(description)
+    expect(rec.duration).toBe(duration)
     done()
   })
 })
