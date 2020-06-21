@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const App = require('../app')
 const app = App.app
 
+const primaryUser = 'unittestuser'
+
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000
 
 let mongoServer
@@ -39,11 +41,23 @@ describe('Test Homepage', () => {
 // /api/exercise/new-user
 
 describe('Test new user API', () => {
-  test('SHould be able to post form data and it should return an object with username and _id', async done => {
-    const response = await request(app).post('/api/exercise/new-user').send('username=unittestuser')
+  test('Should be able to post form data and it should return an object with username and _id', async done => {
+    const response = await request(app).post('/api/exercise/new-user').send(`username=${primaryUser}`)
     expect(response.statusCode).toBe(200)
-    expect(response.body.username).toBe('unittestuser')
+    expect(response.body.username).toBe(primaryUser)
     expect(typeof response.body._id).toBe('string')
+    done()
+  })
+})
+
+// api/exercise/users
+describe('Test user list API', () => {
+  test('Should be able to do get with username and it should return an array of objects with username and _id', async done => {
+    const response = await request(app).get('/api/exercise/users').query({ username: primaryUser })
+    const firstRec = response.body[0]
+    expect(response.statusCode).toBe(200)
+    expect(firstRec.username).toBe(primaryUser)
+    expect(typeof firstRec._id).toBe('string')
     done()
   })
 })

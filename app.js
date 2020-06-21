@@ -18,10 +18,10 @@ app.get('/', asyncHandler(async (req, res, next) => {
 }))
 
 app.post('/api/exercise/new-user', asyncHandler(async (req, res, next) => {
-  console.log(req.body)
+  // console.log(req.body)
   const username = req.body.username
   const user = await Users.findOneAndUpdate(
-    { username: req.body.username },
+    { username: username },
     {
       $setOnInsert: {
         username: username
@@ -33,6 +33,13 @@ app.post('/api/exercise/new-user', asyncHandler(async (req, res, next) => {
     }
   )
   res.json(user)
+}))
+
+app.get('/api/exercise/users', asyncHandler(async (req, res, next) => {
+  // console.log(req.query)
+  const users = await Users.find({ username: req.query.username })
+  // console.log(users)
+  res.json(users)
 }))
 
 // Not found middleware
