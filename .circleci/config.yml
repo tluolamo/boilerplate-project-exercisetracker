@@ -1,0 +1,24 @@
+version: 2.1
+orbs:
+  node: circleci/node@1.1.6
+  codecov: codecov/codecov@1.0.2
+jobs:
+  build-and-test:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: yarn install
+            - run: yarn test
+            - run: yarn test:coverage
+      - store_artifacts:
+          path: coverage
+      - codecov/upload:
+          file: coverage/coverage-final.json
+workflows:
+    build-and-test:
+      jobs:
+        - build-and-test:
+            context: FCC_exercisetracker
