@@ -10,13 +10,14 @@
 		"test:watch": "yarn run test -o --watch"
 	},
 	"dependencies": {
-		"express": "^4.14.0",
-		"mongoose": "^4.7.2",
-		"mongodb": "^2.2.14",
 		"body-parser": "^1.15.2",
 		"cors": "^2.8.1",
-		"shortid": "^2.2.6",
-		"nodemon": "^2.0.4"
+		"express": "^4.14.0",
+		"express-async-handler": "^1.1.4",
+		"mongodb": "^3.5.9",
+		"mongoose": "^5.9.19",
+		"nodemon": "^2.0.4",
+		"shortid": "^2.2.6"
 	},
 	"devDependencies": {
 		"babel-preset-env": "^1.7.0",
@@ -35,5 +36,8 @@
 		"node",
 		"gomix",
 		"express"
-	]
+	],
+	"jest": {
+		"testEnvironment": "node"
+	}
 }
