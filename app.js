@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const path = require('path')
 
 const cors = require('cors')
 
@@ -11,7 +12,7 @@ app.use(bodyParser.json())
 
 app.use(express.static('public'))
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/index.html')
+  res.sendFile(path.join(__dirname, '/views/index.html'))
 })
 
 // Not found middleware
