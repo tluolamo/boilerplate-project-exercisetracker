@@ -25,6 +25,23 @@ app.post('/api/exercise/add', asyncHandler(async (req, res, next) => {
   res.json(user)
 }))
 
+app.get('/api/exercise/log', asyncHandler(async (req, res, next) => {
+  // console.log(req.query)
+  const user = await Users.findById(req.query.userId)
+  // console.log(user)
+  const log = await Exercises.find({ userId: user._id })
+  // console.log(log)
+  user.log = log
+  // console.log(user)
+  const final = {
+    _id: user._id,
+    username: user.username,
+    log: log
+  }
+  // console.log(final)
+  res.json(final)
+}))
+
 app.post('/api/exercise/new-user', asyncHandler(async (req, res, next) => {
   // console.log(req.body)
   const username = req.body.username
