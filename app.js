@@ -27,9 +27,17 @@ app.post('/api/exercise/add', asyncHandler(async (req, res, next) => {
 
 app.get('/api/exercise/log', asyncHandler(async (req, res, next) => {
   // console.log(req.query)
-  const user = await Users.findById(req.query.userId)
-  // console.log(user)
-  const log = await Exercises.find({ userId: user._id })
+  const query = req.query
+  const userId = query.userId
+  const limit = +query.limit || 0
+  const from = query.from || '0000-01-01'
+  const to = query.to || '9999-12-31'
+  const filters = { userId, date: { $gte: from, $lte: to } }
+
+  const user = await Users.findById(userId)
+
+  // console.log(filters)
+  const log = await Exercises.find(filters).limit(limit)
   // console.log(log)
   user.log = log
   // console.log(user)
