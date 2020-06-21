@@ -1,3 +1,7 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tluolamo_boilerplate-project-exercisetracker&metric=alert_status)](https://sonarcloud.io/dashboard?id=tluolamo_boilerplate-project-exercisetracker)
+![CircleCI](https://img.shields.io/circleci/build/github/tluolamo/boilerplate-project-exercisetracker)
+[![codecov](https://codecov.io/gh/tluolamo/boilerplate-project-exercisetracker/branch/gomix/graph/badge.svg)](https://codecov.io/gh/tluolamo/boilerplate-project-exercisetracker)
+
 # Exercise Tracker REST API
 
 #### A microservice project, part of Free Code Camp's curriculum
