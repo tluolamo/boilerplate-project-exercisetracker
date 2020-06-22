@@ -26,7 +26,7 @@ app.post('/api/exercise/add', asyncHandler(async (req, res, next) => {
   res.json({
     _id: user._id,
     username: user.username,
-    date: exercise.date,
+    date: new Date(exercise.date).toDateString(),
     description: exercise.description,
     duration: exercise.duration
   })

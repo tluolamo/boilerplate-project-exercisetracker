@@ -139,7 +139,7 @@ describe('Test exercise add API', () => {
     expect(rec.username).toBe(firstUserName)
     expect(rec.description).toBe(description)
     expect(rec.duration).toBe(duration)
-    expect(rec.date).toBe('2020-06-21T00:00:00.000Z')
+    expect(rec.date).toBe('Sat Jun 20 2020')
     done()
   })
 
@@ -151,7 +151,6 @@ describe('Test exercise add API', () => {
 
     const response = await request(app)
       .post('/api/exercise/add').type('form').send({ userId, description, duration, date })
-    const rec = response.body
 
     expect(response.statusCode).toBe(400)
     done()
