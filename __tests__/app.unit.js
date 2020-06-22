@@ -120,7 +120,7 @@ describe('Test exercise add API', () => {
     expect(rec.username).toBe(firstUserName)
     expect(rec.description).toBe(description)
     expect(rec.duration).toBe(duration)
-    expect(typeof rec.date).toBe('string')
+    expect(rec.date).toBe(new Date().toDateString())
     done()
   })
 
@@ -139,7 +139,7 @@ describe('Test exercise add API', () => {
     expect(rec.username).toBe(firstUserName)
     expect(rec.description).toBe(description)
     expect(rec.duration).toBe(duration)
-    expect(rec.date).toBe('Sat Jun 20 2020')
+    expect(rec.date).toMatch(/^S(at|un) Jun 2(0|1) 2020$/ig)
     done()
   })
 
