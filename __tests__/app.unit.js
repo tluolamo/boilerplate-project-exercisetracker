@@ -9,7 +9,7 @@ const Exercises = require('../exercises')
 
 const primaryUser = 'unittestuser'
 
-const fistUserId = '000000000000000000000001'
+const firstUserId = '000000000000000000000001'
 const secondUserId = '000000000000000000000002'
 const thirdUserId = '000000000000000000000003'
 
@@ -39,14 +39,14 @@ beforeAll(async () => {
   })
 
   const users = [
-    { _id: fistUserId, username: firstUserName },
+    { _id: firstUserId, username: firstUserName },
     { _id: secondUserId, username: secondUserName },
     { _id: thirdUserId, username: thirdUserName }
   ]
   const exercises = [
-    { userId: fistUserId, description: 'Run', duration: 60, date: firstDate },
-    { userId: fistUserId, description: 'Run', duration: 60, date: secondDate },
-    { userId: fistUserId, description: 'Run', duration: 60, date: thirdDate },
+    { userId: firstUserId, description: 'Run', duration: 60, date: firstDate },
+    { userId: firstUserId, description: 'Run', duration: 60, date: secondDate },
+    { userId: firstUserId, description: 'Run', duration: 60, date: thirdDate },
     { userId: secondUserId, description: 'Weghtlifting', duration: 45, date: firstDate },
     { userId: secondUserId, description: 'Weghtlifting', duration: 45, date: secondDate },
     { userId: secondUserId, description: 'Weghtlifting', duration: 45, date: thirdDate },
@@ -110,16 +110,17 @@ describe('Test exercise add API', () => {
   test('Should be able to post exercise data from a form', async done => {
     const description = 'Weightlifting'
     const duration = 60
-    const userId = fistUserId
+    const userId = firstUserId
     const response = await request(app)
       .post('/api/exercise/add').type('form').send({ userId, description, duration })
     const rec = response.body
 
     expect(response.statusCode).toBe(200)
-    expect(typeof rec._id).toBe('string')
-    expect(rec.userId).toBe(userId)
+    expect(rec._id).toBe(userId)
+    expect(rec.username).toBe(firstUserName)
     expect(rec.description).toBe(description)
     expect(rec.duration).toBe(duration)
+    expect(typeof rec.date).toBe('string')
     done()
   })
 
@@ -127,15 +128,15 @@ describe('Test exercise add API', () => {
     const date = '2020-06-21'
     const description = 'Weightlifting'
     const duration = 60
-    const userId = fistUserId
+    const userId = firstUserId
 
     const response = await request(app)
       .post('/api/exercise/add').type('form').send({ userId, description, duration, date })
     const rec = response.body
 
     expect(response.statusCode).toBe(200)
-    expect(typeof rec._id).toBe('string')
-    expect(rec.userId).toBe(userId)
+    expect(rec._id).toBe(userId)
+    expect(rec.username).toBe(firstUserName)
     expect(rec.description).toBe(description)
     expect(rec.duration).toBe(duration)
     expect(rec.date).toBe('2020-06-21T00:00:00.000Z')
@@ -146,7 +147,7 @@ describe('Test exercise add API', () => {
     const date = '2020-06-41'
     const description = 'Weightlifting'
     const duration = 'Error'
-    const userId = fistUserId
+    const userId = firstUserId
 
     const response = await request(app)
       .post('/api/exercise/add').type('form').send({ userId, description, duration, date })

@@ -20,9 +20,16 @@ app.get('/', asyncHandler(async (req, res, next) => {
 
 app.post('/api/exercise/add', asyncHandler(async (req, res, next) => {
   // console.log(req.body)
-  const user = await Exercises.create(req.body)
+  const exercise = await Exercises.create(req.body)
+  const user = await (Users.findById(req.body.userId))
   // console.log(user)
-  res.json(user)
+  res.json({
+    _id: user._id,
+    username: user.username,
+    date: exercise.date,
+    description: exercise.description,
+    duration: exercise.duration
+  })
 }))
 
 app.get('/api/exercise/log', asyncHandler(async (req, res, next) => {
