@@ -83,7 +83,6 @@ app.use(async (req, res, next) => {
 // Error Handling middleware
 app.use(async (err, req, res, next) => {
   let errCode, errMessage
-
   if (err.errors) {
     // mongoose validation error
     errCode = 400 // bad request

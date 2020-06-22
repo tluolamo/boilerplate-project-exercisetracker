@@ -72,6 +72,14 @@ describe('Test Homepage', () => {
   })
 })
 
+describe('Test Bad page', () => {
+  test('It should return 404', async done => {
+    const response = await request(app).get('/doesnotexists')
+    expect(response.statusCode).toBe(404)
+    done()
+  })
+})
+
 // /api/exercise/new-user
 
 describe('Test new user API', () => {
@@ -131,6 +139,20 @@ describe('Test exercise add API', () => {
     expect(rec.description).toBe(description)
     expect(rec.duration).toBe(duration)
     expect(rec.date).toBe('2020-06-21T00:00:00.000Z')
+    done()
+  })
+
+  test('Should cause validation error if invalid data is passed in', async done => {
+    const date = '2020-06-41'
+    const description = 'Weightlifting'
+    const duration = 'Error'
+    const userId = fistUserId
+
+    const response = await request(app)
+      .post('/api/exercise/add').type('form').send({ userId, description, duration, date })
+    const rec = response.body
+
+    expect(response.statusCode).toBe(400)
     done()
   })
 })
@@ -210,7 +232,17 @@ describe('Test exercise log API', () => {
 
     expect(response.statusCode).toBe(200)
     expect(rec.log.length).toBe(2)
+    done()
+  })
 
+  test('Should be able to cause error with bad entries', async done => {
+    const userId = secondUserId
+    const response = await request(app)
+      .get('/api/exercise/log').query({ userId, from: 'a' })
+
+    expect(response.statusCode).toBe(500)
+    expect(response.text).toBe('Cast to date failed for value "a" at path "date" for model "Exercises"')
+    expect(response.res.statusMessage).toBe('Internal Server Error')
     done()
   })
 })
